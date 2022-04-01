@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
     [SerializeField] Color activeColor;
     [SerializeField] float gradientValue;
     public static TextMeshProUGUI winCoinText;
+    FinishTrigger finish;
+
      public int coins;
 
     public static int staticCoins;
@@ -29,6 +31,7 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         coins = 0;
         winCoinText = winCoinTxt;
+        finish = FindObjectOfType<FinishTrigger>();
     }
 
     private void Update()
@@ -42,9 +45,13 @@ public class GameController : MonoBehaviour
         
         coinsTxt.text = coins.ToString();
 
-        if (tg.gap)
+        if (tg.gap && !finish.finished)
         {
             windowRestart.SetActive(true);
+        }
+        else if(finish.finished)
+        {
+            windowRestart.SetActive(false);
         }
 
         //if(tg.dist > 3.5f)
